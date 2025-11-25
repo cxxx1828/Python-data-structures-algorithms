@@ -11,3 +11,6 @@ This repository contains comprehensive Python implementations of fundamental dat
 - Social network modeling and friend group classification
 - Path finding and graph traversal algorithms
 - Complete time and space complexity documentation
+
+## Author
+Nina Dragićević
