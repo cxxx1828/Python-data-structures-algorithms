@@ -293,10 +293,7 @@ import math
 
 
 class Task:
-    """
-    Klasa koja predstavlja jedan zadatak u sistemu
-    Svaki zadatak ima prioritet, vreme početka, trajanje, tip i oznaku snimača
-    """
+    
 
     def __init__(self, p=None, s=None, d=None, t=None, r=None):
         self.priority = p  # Prioritet zadatka (veći broj = viši prioritet)
@@ -315,101 +312,51 @@ class Task:
 # OSNOVNE HEAP FUNKCIJE - za navigaciju kroz binarno stablo u nizu
 
 def Parent(i):
-    """
-    Vraća indeks roditelja za čvor na poziciji i
-    U 0-based indexing: roditelj od i je na poziciji (i-1)//2
-    """
+    
     return (i - 1) // 2
 
 
 def Left(i):
-    """
-    Vraća indeks levog deteta za čvor na poziciji i
-    Levo dete od i je na poziciji 2*i + 1
-    """
+   
     return 2 * i + 1
 
 
 def Right(i):
-    """
-    Vraća indeks desnog deteta za čvor na poziciji i
-    Desno dete od i je na poziciji 2*i + 2
-    """
+    
     return 2 * i + 2
 
 
-# OSNOVNA HEAP OPERACIJA
 
 def MaxHeapify(A, i, heap_size):
-    """
-    Održava max heap svojstvo za čvor na poziciji i
-
-    Algoritam:
-    1. Poredi čvor sa levim i desnim detetom
-    2. Pronađe najveći od tri elementa
-    3. Ako čvor nije najveći, zameni ga sa najvećim detetom
-    4. Rekurzivno pozove sebe za novo mesto gde je stavljen čvor
-
-    Vremenska složenost: O(log n)
-    """
+    
     l = Left(i)  # Pozicija levog deteta
     r = Right(i)  # Pozicija desnog deteta
 
-    # Pronađi najveći element među čvoru i njegovoj deci
     if l < heap_size and A[l].priority > A[i].priority:
         largest = l  # Levo dete je najveće
     else:
         largest = i  # Trenutni čvor je najveći od sebe i levog deteta
 
-    # Proveri da li je desno dete veće od trenutno najvećeg
     if r < heap_size and A[r].priority > A[largest].priority:
         largest = r  # Desno dete je najveće
 
-    # Ako čvor nije na pravom mestu, zameni ga i nastavi heapify
     if largest != i:
         A[i], A[largest] = A[largest], A[i]  # Zameni elemente
         MaxHeapify(A, largest, heap_size)  # Rekurzivno pozovi za novo mesto
 
 
-# KREIRANJE HEAP-A
 
 def BuildMaxHeap(A):
-    """
-    Pretvara obični niz u max heap
-
-    Algoritam:
-    1. Počinje od poslednjeg čvora koji ima decu (len//2 - 1)
-    2. Ide unazad do root-a (indeks 0)
-    3. Za svaki čvor poziva MaxHeapify
-
-    Zašto unazad? Bottom-up pristup - listovi su već heap-ovi,
-    krećemo od roditelja listova naviše
-
-    Vremenska složenost: O(n) - iznenađujuće, nije O(n log n)!
-    """
+   
     heap_size = len(A)
     # Poslednji čvor koji ima decu je na poziciji len//2 - 1
     for i in range(heap_size // 2 - 1, -1, -1):
         MaxHeapify(A, i, heap_size)
 
 
-# SORTIRANJE
 
 def HeapSort(A, heap_size):
-    """
-    Sortira niz koristeći heap sort algoritam
-
-    Algoritam:
-    1. Napravi max heap od niza
-    2. Ponavljaj:
-       - Uzmi najveći element (root)
-       - Stavi ga na poslednje mesto nesortiranog dela
-       - Smanji heap za 1
-       - Obnovi heap svojstvo
-
-    Rezultat: niz sortiran u rastućem redosledu
-    Vremenska složenost: O(n log n)
-    """
+    
     BuildMaxHeap(A)  # Napravi max heap
 
     # Sortiranje: stavljaj najveće elemente na kraj
@@ -422,18 +369,7 @@ def HeapSort(A, heap_size):
 # PRIORITETNI RASPOREĐIVAČ FUNKCIJE
 
 def GetNextTask(A):
-    """
-    Dobavlja i uklanja zadatak najvećeg prioriteta iz heap-a
-
-    Algoritam:
-    1. Sačuva najveći element (root na poziciji 0)
-    2. Stavi poslednji element na mesto root-a
-    3. Ukloni poslednji element
-    4. Obnovi heap svojstvo pozivom MaxHeapify
-    5. Vrati sačuvani najveći element
-
-    Vremenska složenost: O(log n) - kao što zadatak traži
-    """
+   
     if len(A) == 0:
         return None  # Prazan heap
 
@@ -448,16 +384,7 @@ def GetNextTask(A):
 
 
 def GetAllTasksSorted(A):
-    """
-    Vraća sve zadatke sortirane po prioritetu od najnižeg ka najvišem
-
-    Algoritam:
-    1. Pravi kopiju originalnog niza
-    2. Koristi HeapSort da sortira kopiju
-    3. Vraća sortiranu kopiju (originalni niz ostaje nepromenjen)
-
-    Vremenska složenost: O(n log n) - kao što zadatak traži
-    """
+   
     B = A[:]  # Napravi kopiju da ne uništi originalni niz
     HeapSort(B, len(B))  # Sortiraj kopiju
     return B  # Vrati sortiranu kopiju
