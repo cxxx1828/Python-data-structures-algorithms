@@ -43,7 +43,7 @@ class Graph:
         return counter
 
     def __str__(self):
-        result = 'Veze u grafu, ime 1 je source, ime 2 je destination:\n'
+        result = 'name 1 is source, name 2 is destination:\n'
         for e in self.E:
             result += f'Ime 1: {e.source.ime_korisnika} -> Ime 2: {e.destination.ime_korisnika}\n'
         return result
@@ -181,7 +181,6 @@ G.funkcija('Borislav', 'Pekic')
 G.funkcija('Ivo', 'Andric')
 G.funkcija('Danica', 'Maksimovic')
 
-print('\nIspis svih korisnika u grafu nakon poziva funkcije')
 print(a)
 print(b)
 print(c)
