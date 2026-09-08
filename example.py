@@ -21,7 +21,6 @@ for i in l:
     node=class_example.Node(data=class_example.Data(i,str(i)))
     tree.tree_insert(node)
 
-print("\nStablo:")
 tree.print_tree()
 
 print("\nInorder:")
