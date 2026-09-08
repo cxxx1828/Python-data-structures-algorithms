@@ -172,12 +172,10 @@ def PrintTree(root, level=0, prefix="Root: "):
 
 
 if __name__ == "__main__":
-    print("=== BST TESTIRANJE SA FUNKCIJAMA ===")
 
     elNum = 7
     N = RandomData(0, elNum * 2, elNum)
 
-    print("Dodavanje čvorova:")
     root = N[0]  
     print(f"Root: {N[0].data.a1}")
 
@@ -185,10 +183,8 @@ if __name__ == "__main__":
         root = TreeInsert(root, N[i])
         print(f"Dodato: {N[i].data.a1}")
 
-    print("\nGrafički prikaz stabla:")
     PrintTree(root)
 
-    print("\nInOrder obilazak:")
     InOrderTreeWalk(root)
 
     print(f"\nTreeSearch za 5: {TreeSearch(root, 5) != None}")
@@ -209,7 +205,6 @@ if __name__ == "__main__":
         InOrderTreeWalk(root)
 
     print("\n" + "=" * 50)
-    print("TEST SA ZADATIM NIZOM [50, 20, 75, 2, 27, 32, 80, 90, 26, 25]")
 
     array = [50, 20, 75, 2, 27, 32, 80, 90, 26, 25]
     nodes = []
@@ -224,12 +219,10 @@ if __name__ == "__main__":
 
     for i in range(1, len(nodes)):
         tree_root = TreeInsert(tree_root, nodes[i])
-        print(f"Dodato: {nodes[i].data.a1}")
+        print(f"added: {nodes[i].data.a1}")
 
-    print("\nGrafički prikaz:")
     PrintTree(tree_root)
 
-    print("\nInOrder obilazak:")
     InOrderTreeWalk(tree_root)
 
     print(f"\nPretraga 27: {TreeSearch(tree_root, 27) != None}")
@@ -245,7 +238,5 @@ if __name__ == "__main__":
         succ = TreeSuccessor(node_27)
         print(f"Sledbenik od 27: {succ.data.a1 if succ else None}")
 
-    print(f"\nBrisanje čvora 27")
     tree_root = TreeDelete(tree_root, node_27)
-    print("InOrder posle brisanja:")
     InOrderTreeWalk(tree_root)
