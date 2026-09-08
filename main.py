@@ -97,10 +97,7 @@ class Tree:
         return x
 
     def TreeSearch(self, k):
-        """
-        vraca tuple (Node, vreme_u_nanosekundama)
-        wrapper funkcija za merenje vremena pretrage
-        """
+    
         start = time.perf_counter_ns()
         result = self.tree_search(self.root, k)
         end = time.perf_counter_ns()
@@ -185,33 +182,28 @@ def bucket_sort(A):
     8      sort list B[i] with insertion sort
     9  concatenate the lists B[0], B[1], ..., B[n-1] together in order
 
-    vremenska slozenost O(n) prosecno
-    najgori slucaj O(n²)
+    average  O(n) 
+    worst case O(n²)
     """
     if not A:
         return A
 
     n = len(A)
 
-    # max vrednost capacity
     max_capacity = max(dc[1] for dc in A)
 
-    # kreiramo buckets za svaki el
     buckets = []
     for i in range(n):
         buckets.append([])
 
-    # rasporeda el u buckets
     for datacenter in A:
         capacity = datacenter[1]
         bucket_index = (n * capacity) // (max_capacity + 1)
         buckets[bucket_index].append(datacenter)
 
-    # sortiranje
     for bucket in buckets:
         bucket.sort(key=lambda x: x[1])
 
-    # spajanje sve nazad
     result = []
     for bucket in buckets:
         for element in bucket:
@@ -221,7 +213,6 @@ def bucket_sort(A):
 
 
 class Vertex:
-    """cvor u grafu"""
 
     def __init__(self, p=None, d=None, name=None):
         self.p = p  # roditelj (parent)
@@ -233,7 +224,6 @@ class Vertex:
 
 
 class Edge:
-    """ivica u grafu"""
 
     def __init__(self, u=None, v=None, w=1):
         self.u = u  # pocetni cvor
@@ -245,7 +235,6 @@ class Edge:
 
 
 class Graph:
-    """graf"""
 
     def __init__(self, V=None, E=None):
         self.V = V if V is not None else []  # niz cvorova
@@ -268,11 +257,7 @@ class Graph:
 
 
 def get_weight(G, u, v):
-    """
-    vraca tezinu ivice izmedu cvorova u i v
-    a ako ivica ne postoji, vraca beskonacnost
-
-    """
+    
     for i in G.E:
         if i.u == u and i.v == v:
             return i.w
@@ -287,8 +272,6 @@ def initialize_single_source(G, s):
     3      v.π = NIL
     4  s.d = 0
 
-    inicijalizuje distance na beskonacnost i parent pokazivace na nista
-    jer na početku NE ZNAMO kako stici do bilo kog cvora, pa pretpostavljamo da su svi nedostizni
     """
     for v in G.V:
         v.d = math.inf
@@ -303,7 +286,6 @@ def relax(G, u, v):
     2      v.d = u.d + w(u, v)
     3      v.π = u
 
-    relaksacija ivice pokusava da poboljsa najkracu putanju do v
 
     """
     if v.d > u.d + get_weight(G, u, v):
@@ -333,7 +315,6 @@ def print_path(G, s, v):
 def extract_min(Q):
     """
     EXTRACT-MIN(Q)
-    pronalazi i uklanja cvor sa minimalnom distancom iz skupa Q
     """
     min_node = None
     min_dist = math.inf
@@ -350,9 +331,7 @@ def extract_min(Q):
 
 
 def get_neighbors(G, u):
-    """
-    vraca listu susednih cvorova za cvor u
-    """
+    
     neighbors = []
     for edge in G.E:#prolazi kroz sve ivice, i vidimo sve pocetne cvorove
         if edge.u == u:  #ako je u pocetni cvor, znaci ako pocinje od u
@@ -380,14 +359,12 @@ def dijkstra(G, s): #graf, pocetni cvor
     Q = list(G.V)        # svi cvorovi u queue
 
     while Q:
-        # izvuci cvor sa min distancom
         u = extract_min(Q)  # uzmi najblizi
 
         if u is None or u.d == math.inf:
             break
 
-        # u je sad u skupu S
-        # relax susedne ivice
+        
         neighbors = get_neighbors(G, u)
         for v in neighbors:
             if v in Q:
@@ -397,22 +374,17 @@ def dijkstra(G, s): #graf, pocetni cvor
 
 
 def findRoute(G, s, target=None):
-    """
-    koristi Dijkstra algoritam
-    za nalazenje najkrace putanje sa najmanje gubitka paketa
-
-    param: grag, pocetni i cilj cvor
-    """
+    
 
     dijkstra(G, s)
 
     if target is not None:
-        print("\nPutanja od", s.name, "do", target.name, ":")
+        print("\path from", s.name, "do", target.name, ":")
         if target.d == math.inf:
-            print("Ne postoji putanja od", s.name, "do", target.name)
+            print("no path from", s.name, "to", target.name)
         else:
-            print("Ukupan moguci gubitak pronadjene putanje:", target.d)
-            print("Putanja: \n", end="")
+            print(":", target.d)
+            print(": \n", end="")
             print_path(G, s, target)
             print()
 
@@ -449,9 +421,6 @@ def create_datacenter_list(num_entries):
     return datacenters
 
 
-# =============================================================================
-# pozivanje funkcija
-# =============================================================================
 
 print('*' * 90)
 print('prvi zadatak: Generisanje listi')
@@ -471,7 +440,6 @@ print('=' * 80)
 print('drugi zadatak: Binary Search Tree')
 print('=' * 80)
 
-# kreiranje stabla za 10 elemenata
 tree_10 = Tree()
 for datacenter in my_datacenters10:
     node = Node(data=Data(datacenter[0], datacenter[1]))
@@ -482,7 +450,6 @@ print("2.a - InOrder ispis stabla (sortirano po kapacitetu):")
 print("=" * 80)
 tree_10.inOrderTreePrint(tree_10.root)
 
-print("\nGraficki prikaz stabla:")
 tree_10.print_tree()
 
 print("\n" + "=" * 80)
@@ -497,7 +464,6 @@ print("\n" + "=" * 80)
 print("2.c - Dictionary sa vremenima pretrage")
 print("=" * 80)
 
-# kreiranje svih stabala
 tree_100 = Tree()
 for datacenter in my_datacenters100:
     tree_100.tree_insert(Node(data=Data(datacenter[0], datacenter[1])))
@@ -510,7 +476,6 @@ tree_10000 = Tree()
 for datacenter in my_datacenters10000:
     tree_10000.tree_insert(Node(data=Data(datacenter[0], datacenter[1])))
 
-# kreiranje dictionary-ja za sva stabla
 dict_10 = {}
 for datacenter in my_datacenters10:
     node, search_time = tree_10.TreeSearch(datacenter[1])
@@ -544,18 +509,15 @@ print('\n' + '=' * 80)
 print('ZADATAK 3: Sorting - Bucket Sort')
 print('=' * 80)
 
-# sortiranje svih listi
 sorted_10 = bucket_sort(my_datacenters10)
 sorted_100 = bucket_sort(my_datacenters100)
 sorted_1000 = bucket_sort(my_datacenters1000)
 sorted_10000 = bucket_sort(my_datacenters10000)
 
-print("\nSortirana lista od 10 elemenata:")
 for dc in sorted_10:
     print(f"{dc[0]} ----- {dc[1]}")
 
 print("\n" + "=" * 80)
-print("3.a - BST stabla od sortiranih listi (nebalansirana - naginje desno)")
 print("=" * 80)
 
 # kreiranje stabla od sortiranih listi
@@ -640,7 +602,6 @@ print(f"1000 elemenata: {avg_time_1000_sorted:.2f} ns")
 print(f"10000 elemenata: {avg_time_10000_sorted:.2f} ns")
 
 print('\n' + '=' * 80)
-print('ZADATAK 4: Graph - Mreza komunikacije izmedu datacentara')
 print('=' * 80)
 
 # kreiranje cvorova
@@ -676,7 +637,6 @@ print(G)
 print("\n4.b i 4.c FindRoute funkcija:")
 findRoute(G, japan1, brazil1)
 
-# Na samom kraju, posle zadatka 4:
 print("\n" + "=" * 80)
 print("PODACI ZA GRAFOVE - copy/paste u matplotlib:")
 print("=" * 80)
